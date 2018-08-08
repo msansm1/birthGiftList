@@ -1,9 +1,8 @@
 package bzh.msansm1.birthlist.model;
 
-import bzh.msansm1.birthlist.repository.BirthGiftsData;
-
 public class BirthGift {
     private static final String SEPARATOR = ",";
+    private static final String DBQUOTE = "\"";
     private static final int INDEX_NAME = 0;
     private static final int INDEX_URL = 1;
     private static final int INDEX_PERSON = 2;
@@ -32,7 +31,8 @@ public class BirthGift {
     }
 
     public String toCSVLine() {
-        return this.id + SEPARATOR + this.name + SEPARATOR + this.url + SEPARATOR + this.person + SEPARATOR + "\n";
+        return DBQUOTE + this.name + DBQUOTE + SEPARATOR + DBQUOTE + this.url +
+                DBQUOTE + SEPARATOR + DBQUOTE +  this.person + DBQUOTE + SEPARATOR + "\n";
     }
 
     private String extractDataFromField(String fieldData) {
