@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liste de naissance</title>
+
+        <!-- development version, includes helpful console warnings -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- production version, optimized for size and speed -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> --> 
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    </head>
+    <body style="font-family: Arial, Helvetica, sans-serif;">
+
+        <h1>Bienvenue sur la liste de naissance de B&eacute;b&eacute; 2 Barbot !</h1>
+        <p>La liste contient les noms des possibles cadeaux, des fois un lien vers un site, et un champ d'entr&eacute;e texte permet d'y noter son nom.</p>
+        <p>Soyez gentil et n'effacez pas les noms des autres :)</p>
+        <p>Merci !</p>
+
+        <div id="giftlist" style="display: flex; flex-flow: column; max-width: 750px; margin-left: 20px;">
+            <div v-for="gift in gifts" style="flex: 1;display: flex; margin-top: 7px; margin-bottom: 8px;">
+                <span v-if="gift.url === ''" style="flex: 1">{{ gift.name }}</span>
+                <a v-if="gift.url !== ''" v-bind:href="gift.url" style="flex: 1" target="_blank">{{ gift.name }}</a>
+                <input type="text" v-model="gift.person" style="flex: 1" />
+            </div>
+        </div>
+
+        <script>
+            var app = new Vue({
+                el: '#giftlist',
+                data: {
+                    gifts: [
+                    ]
+                },
+                methods: {
+                    getGifts: function() {
+                        axios.get("https://eliseetronan.dizalch.fr/listedenaissance/api/")
+                        .then(response => {this.gifts = response.data})
+                    }
+                }
+            });
+            app.getGifts();
+        </script>
+    </body>
+</html>
