@@ -10,16 +10,50 @@
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+        <style>
+            body {
+                background-image: url('lit.jpg');
+                background-size: 100% 100%;
+                font-family: Arial, Helvetica, sans-serif;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .header {
+                padding: 10px;
+                background-color:rgba(255, 255, 255, 0.781);
+            }
+            
+            .giftlist {
+                display: flex;
+                flex-direction: column;
+                max-width: 750px;
+            }
+
+            .giftitem-even {
+                background-color:rgba(181, 255, 209, 0.781) !important;
+            }
+
+            .giftitem-odd {
+                flex: 1;
+                display: flex;
+                padding: 7px;
+                padding-left: 27px;
+                background-color:rgba(255, 255, 255, 0.781);
+            }
+        </style>
     </head>
-    <body style="font-family: Arial, Helvetica, sans-serif;">
+    <body>
 
-        <h1>Bienvenue sur la liste de naissance de B&eacute;b&eacute; 2 Barbot !</h1>
-        <p>La liste contient les noms des possibles cadeaux, des fois un lien vers un site, et un champ d'entr&eacute;e texte permet d'y noter son nom.</p>
-        <p>Soyez gentil et n'effacez pas les noms des autres :)</p>
-        <p>Merci !</p>
+        <div class="header">
+            <h1>Bienvenue sur la liste de naissance de B&eacute;b&eacute; 2 Barbot !</h1>
+            <p>La liste contient les noms des possibles cadeaux, des fois un lien vers un site, et un champ d'entr&eacute;e texte permet d'y noter son nom.<br/>
+            Soyez gentil et n'effacez pas les noms des autres :)<br/>
+            Merci !</p>
+        </div>
 
-        <div id="giftlist" style="display: flex; flex-flow: column; max-width: 750px; margin-left: 20px;">
-            <div v-for="gift in gifts" style="flex: 1;display: flex; margin-top: 7px; margin-bottom: 8px;">
+        <div id="giftlist" class="giftlist">
+            <div v-for="gift in gifts" class="giftitem-odd" v-bind:class="{ 'giftitem-even': gift.id % 2 === 0 }">
                 <span v-if="gift.url === ''" style="flex: 1">{{ gift.name }}</span>
                 <a v-if="gift.url !== ''" v-bind:href="gift.url" style="flex: 1" target="_blank">{{ gift.name }}</a>
                 <input type="text" v-model="gift.person" style="flex: 1" />
