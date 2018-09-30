@@ -38,12 +38,49 @@
                 flex: 1;
                 display: flex;
                 padding: 7px;
-                padding-left: 27px;
+                padding-left: 27px; 
                 background-color:rgba(255, 255, 255, 0.781);
             }
+
+            .save-button {
+                flex: 1;
+                background-color: #55AAFF;
+                color: #FFF;
+                font-weight: bold;
+            }
+            
+            .alert {
+                padding: 20px;
+                background-color: #46a8f5;
+                color: white;
+                margin-bottom: 15px;
+                z-index: 100;
+                position: absolute;
+                width: 50%;
+            }
+
+            .closebtn {
+                margin-left: 15px;
+                color: white;
+                font-weight: bold;
+                float: right;
+                font-size: 22px;
+                line-height: 20px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .closebtn:hover {
+                color: black;
+            } 
         </style>
     </head>
+
     <body>
+        <div class="alert" style="display: none" id="alertSaveOk">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            C'est sauvegard&eacute; !
+        </div> 
 
         <div class="header">
             <h1>Bienvenue sur la liste de naissance de B&eacute;b&eacute; 2 Barbot !</h1>
@@ -57,6 +94,7 @@
                 <span v-if="gift.url === ''" style="flex: 1">{{ gift.name }}</span>
                 <a v-if="gift.url !== ''" v-bind:href="gift.url" style="flex: 1" target="_blank">{{ gift.name }}</a>
                 <input type="text" v-model="gift.person" style="flex: 1" />
+                <input type="button" v-on:click="save" class="save-button" value="ENREGISTRER"/>
             </div>
         </div>
 
@@ -69,8 +107,15 @@
                 },
                 methods: {
                     getGifts: function() {
-                        axios.get("https://eliseetronan.dizalch.fr/listedenaissance/api/")
-                        .then(response => {this.gifts = response.data})
+                        axios.get("https://your.domain/listedenaissance/api/")
+                        .then(response => {this.gifts = response.data});
+                    },
+                    save: function() {
+                        axios.post("https://your.domain/listedenaissance/api/", this.gifts)
+                        .then(response => {
+                            console.log('save OK');
+                            document.getElementById("alertSaveOk").style.display = "";
+                        });
                     }
                 }
             });
