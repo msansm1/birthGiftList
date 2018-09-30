@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -31,6 +33,10 @@ public class ListController {
     @ResponseStatus(value = HttpStatus.OK)
     public void updateList(@RequestBody List<BirthGift> gifts) throws IOException {
         BirthGiftsData.saveGiftList(Paths.get(dataFilePath), gifts);
+        // backup on each save
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        BirthGiftsData.saveGiftList(Paths.get(dataFilePath + "." + now.format(formatter)), gifts);
     }
 
 }
