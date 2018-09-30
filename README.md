@@ -16,7 +16,7 @@ It references a 'lit.jpg' file as background image, and you must change the url 
 
 # The server
 
-You can build the server with this command :
+You can build the server with this command (inside the /server folder):
 
 ```
 ./mvnw package
